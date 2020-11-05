@@ -1,0 +1,14 @@
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+rain<-read.csv("D:/disk/ESE5023/rainfall.csv",header=T)
+rain_1<-as_tibble(rain)
+boxplot(rain$unseeded,rain$seeded,
+        xlab="unseeded_and_seeded",
+        ylab="rainfall",
+        cex=2,
+        col="green")
+#piancha
+piancha<-t.test(rain$unseeded,rain$seeded)
+print(piancha)
+#p_value=0.053>0.05,√ª”–≤Ó“Ï

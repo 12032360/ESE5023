@@ -1,0 +1,39 @@
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+big_bang<- read.csv("D:/disk/ESE5023/big bang.csv",header = T)
+big_bang_1<-as_tibble(big_bang)
+plot(big_bang_1$s ~big_bang_1$v , data=big_bang_1,
+     xlab = "v",
+     ylab = "s",
+     main = "x vs v",
+     pch = "+",
+     cex = 2,
+     col = "green")
+fit <- lm(big_bang_1$s ~big_bang_1$v)
+summary(fit)
+abline(fit, lwd = 5, col = "red")
+points(mean(big_bang_1$v), mean(big_bang_1$s), pch = "+", cex = 3)
+#遵循宇宙大爆炸理论，在未爆炸之前，球体距离地球的距离为0，所以截距必须为0，并且速度乘以时间就是距离，当速度一定时，球体距离地球的距离就是从宇宙爆炸开始就算，所以各个球体的速度是不同的，当他们都运动相同时间，
+#距离地球距离就和宇宙年龄有关，所以斜率就是宇宙年龄。
+fit <- lm(big_bang_1$s ~big_bang_1$v)
+print(fit)
+coef(fit)
+summary(fit)
+cor(big_bang_1$s,big_bang_1$v)
+#5.4
+v1<-big_bang_1$v-306
+s1<-big_bang_1$s
+fit2<-lm(s1~v1)
+summary(fit2)
+plot(s1~v1,
+     xlab = "v",
+     ylab = "s",
+     main = "x vs v",
+     pch = "+",
+     cex = 2,
+     col = "green")
+fit <- lm(big_bang_1$s ~big_bang_1$v)
+summary(fit)
+abline(fit, lwd = 5, col = "yellow")
+points(mean(big_bang_1$v), mean(big_bang_1$s), pch = "+", cex = 3)

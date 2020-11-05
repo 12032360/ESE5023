@@ -1,0 +1,25 @@
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+wd<- read.csv("D:/disk/ESE5023/water_quality.csv",header = T,encoding="UTF-8")
+wd_1<-as_tibble(wd)
+names(wd_1)
+suspend_solidsur<-wd_1 %>% 
+  filter(Depth=="Surface Water") %>%
+  pull(Volatile.Suspended.Solids..mg.L.)
+suspend_solidmid<-wd_1 %>% 
+  filter(Depth=="Middle Water") %>%
+  pull(Volatile.Suspended.Solids..mg.L.)
+a <- t.test(as.numeric(suspend_solidsur),as.numeric(suspend_solidmid))
+print(a)
+#p-value=0.554我们认为没有差异水中悬浮固体在水中位置
+#7.2 水中表面，底部，中部之间悬浮固体浓度差异
+wd_high<-wd_1 %>% 
+  mutate(depth = factor(Depth, ordered = TRUE)) %>% 
+  mutate(b=as.numeric(Volatile.Suspended.Solids..mg.L.)) %>% 
+  select(depth,b)
+
+b<-as.numeric(Volatile.Suspended.Solids..mg.L.)
+anova_one <- aov( b~depth, data =wd_high)
+summary(anova_one)
+#根据summary,可以看出p-value较小，可以认为水中悬浮固体在水中位置间有差异

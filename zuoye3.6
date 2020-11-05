@@ -1,0 +1,21 @@
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(MASS)
+data(cpus)
+str(cpus)
+sample_index <- sample(nrow(cpus),nrow(cpus)*0.80)
+cpus_train <- cpus[sample_index,]
+cpus_test  <- cpus[-sample_index,]
+model_1 <- lm(perf~syct+mmin+mmax+cach+chmin+chmax, data=cpus_train)
+model_1 <- lm(medv ~ ., data=cpus_train)
+summary(model_1)
+install.packages("leaps")
+library(leaps)
+subset_result <- regsubsets(perf~syct+mmin+mmax+cach+chmin+chmax, data=cpus_train, nbest=2, nvmax = 6)
+plot(subset_result, scale="bic")
+#6.2
+cpus_pre<-predict(model_1,cpus_test)
+plot(cpus_pre)
+mean_bias<-(mean(cpus_pre)-mean(cpus_test$perf)/mean(cpus_test$perf))*100
+print(mean_bias)

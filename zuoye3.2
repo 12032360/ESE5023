@@ -1,0 +1,17 @@
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+bawanglong<- read.csv("D:/disk/ESE5023/bawanglong.csv",header = T)
+bawanglong_1<-as_tibble(bawanglong)
+bawanglong_1 %>% 
+  group_by(bone) %>% 
+  summarise(count = n(),
+            mean_bone = mean(bone_data, na.rm = TRUE),
+            sd_bone = sd(bone_data, na.rm = TRUE)
+            )
+ggplot(bawanglong_1, aes(x = bone, y = bone_data, fill = bone)) +
+  geom_boxplot() +
+  theme_classic()
+anova_one_way <- aov( bone_data~ bone, data = bawanglong_1)
+summary(anova_one_way)
+#p-value较小，所以我们认为有差异

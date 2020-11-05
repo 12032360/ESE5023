@@ -1,0 +1,18 @@
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+wendu<- read.csv("D:/disk/ESE5023/wendu.csv",header = T)
+wendu_1<-as_tibble(wendu)
+plot(wendu_1$elevation,wendu_1$tem)
+fit <- lm(wendu_1$tem~wendu_1$elevation)
+summary(fit)
+plot(wendu_1$tem~wendu_1$elevation,
+     xlab = "elevation",
+     ylab = "tem",
+     main = "tem vs elevation",
+     pch = 20,
+     cex = 2,
+     col = "green")
+abline(fit, lwd = 5, col = "blue")
+points(mean(wendu_1$elevation), mean(wendu_1$tem), pch = "+", cex = 3)
+#从summary可以看出斜率为-9.31，与9.8还是比较接近的

@@ -1,0 +1,17 @@
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+sushi<- read.csv("D:/disk/ESE5023/sushi.csv",header = T)
+sushi_1<-as_tibble(sushi)
+sushi_1 %>% 
+  group_by(people) %>% 
+  summarise(count = n(),
+            mean_bone = mean(zn, na.rm = TRUE),
+            sd_bone = sd(zn, na.rm = TRUE)
+  )
+ggplot(sushi_1, aes(x = people, y = zn, fill = people)) +
+  geom_boxplot() +
+  theme_classic()
+anova_one_way <- aov( zn~ people, data = sushi_1)
+print(anova_one_way)
+#ÎÞÏÔÖø²îÒì
